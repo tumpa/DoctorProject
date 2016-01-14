@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Drawer Menu 3</string>
+
+    <string-array name="city">
+        <item name="dhaka">Dhaka</item>
+        <item name="ctg">Chittagong</item>
+        <item name="khulna">Khulna</item>
+        <item name="gazipur">Gazipur</item>
+    </string-array>
+</resources>

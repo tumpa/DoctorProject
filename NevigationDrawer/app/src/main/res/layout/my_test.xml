@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:background="#7283FF"
+    android:layout_height="match_parent"
+    android:paddingBottom="2dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="1dp"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DEE2FF"
+        android:paddingBottom="2dp"
+        >
+
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="120dp"
+            android:id="@+id/doc_img_detail"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/doc_three" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:id="@+id/detail_name"
+            android:layout_toRightOf="@+id/doc_img_detail"
+            android:layout_alignParentTop="true"
+            android:textSize="18sp"
+            android:text="Dr. Hamidur"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingTop="15dp"
+            android:textSize="14sp"
+            android:id="@+id/detail_field"
+            android:layout_toRightOf="@+id/doc_img_detail"
+            android:layout_below="@+id/detail_name"
+            android:text="Dentist"
+            />
+
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:id="@+id/ratingBar"
+            android:layout_below="@+id/detail_field"
+            android:layout_toRightOf="@+id/doc_img_detail"
+            android:layout_toEndOf="@+id/doc_img_detail" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#DEE2FF"
+        >
+
+        <include  layout="@layout/tab_layout_container" android:id="@+id/id" />
+    </RelativeLayout>
+
+
+</LinearLayout>

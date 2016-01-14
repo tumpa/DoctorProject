@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">CardViewTest</string>
+    <string name="app_name">Need a Dr.</string>
+    <string name="reg_text"><u>Open an account !</u></string>
 </resources>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    >
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Degree"
+            android:layout_marginBottom="10dp"
+            android:background="#DEE2FF"
+            android:id="@+id/chamber_address" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/address"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="#FFCFF7CA"
+            android:layout_below="@+id/chamber_address" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Chamber Contact"
+            android:background="#DEE2FF"
+
+            android:id="@+id/textView3"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/address" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/appointment"
+            android:background="#FFCFF7CA"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:layout_below="@+id/textView3"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Category"
+            android:id="@+id/category"
+            android:background="#DEE2FF"
+            android:layout_below="@+id/appointment"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:layout_below="@+id/category"
+            android:id="@+id/visiting_fees"
+            android:background="#FFCFF7CA"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Others Information"
+            android:id="@+id/textView7"
+            android:background="#DEE2FF"
+            android:layout_below="@+id/visiting_fees"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:layout_below="@+id/textView7"
+            android:id="@+id/doc_others_info"
+            android:background="#cff7ca"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:layout_marginBottom="10dp" />
+
+    </RelativeLayout>
+
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

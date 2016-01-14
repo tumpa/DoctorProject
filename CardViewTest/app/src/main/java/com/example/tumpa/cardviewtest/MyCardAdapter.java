@@ -23,18 +23,6 @@ public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.ViewHolder
         doctorList.add(d);
         d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
         doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
-        d = new Doctor("12","18","Dr. A.K.M. Anwarul Islam","MBBS, FCPS, FRCS, FICS","zsd","asda","asd","asdas");
-        doctorList.add(d);
 
     }
     */

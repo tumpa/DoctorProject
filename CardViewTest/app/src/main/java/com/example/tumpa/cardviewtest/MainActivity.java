@@ -6,7 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,13 +31,20 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter myRVAdapter;
     List<Doctor> doctorList;
 
+    List<String> categoryList;
     ProgressBar mProgress;
-
+    ImageButton search;
+    Spinner categorySpnr;
+    HashMap categoryHM ;
+    ArrayAdapter<String> dataAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r_v_layout);
         mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+
+        search = (ImageButton) findViewById(R.id.search_btn);
+        categorySpnr = (Spinner) findViewById(R.id.category_spinner);
 
         myRecycleView = (RecyclerView) findViewById(R.id.rv);
 
@@ -41,12 +52,84 @@ public class MainActivity extends AppCompatActivity {
         myRVLayoutManager = new LinearLayoutManager(this);
         myRecycleView.setLayoutManager(myRVLayoutManager);
         doctorList = new ArrayList<Doctor>();
+
+        categoryList = new ArrayList<String>();
+        categoryHM = new HashMap();
+
+
+        /////////////////////Spinner Implementation //////////////////
+        dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,categoryList );
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpnr.setAdapter(dataAdapter);
+
+        /////////////////////Search Implementation //////////////
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("btn onclick", categorySpnr.getSelectedItem().toString());
+                String s = categorySpnr.getSelectedItem().toString();
+                String id = (String) categoryHM.get(s);
+
+
+                if(id.equals("All")){
+                    //myRVAdapter = new MyCardAdapter(doctorList,MainActivity.this);
+                }
+                else{
+
+                }
+                String url = "http://www.designtrick.com/all/doctors_admin_panel/get_doc_by_category.php?id="+id;
+                mProgress.setVisibility(View.VISIBLE);
+                mProgress.setMax(150);
+                mProgress.setProgress(0);
+
+                final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONArray array = object.getJSONArray("requests");
+
+
+                            Doctor doctor;
+                            doctorList.clear();
+                            for ( int i = 0 ;i<array.length();i++)
+                            {
+                                mProgress.incrementProgressBy(i + 2 * 5);
+
+                                JSONObject obj = array.getJSONObject(i);
+
+                                doctor = new Doctor(obj.getString("doctor_id"),obj.getString("category_id"),
+                                        obj.getString("doctor_name"),obj.getString("doctor_degree"),
+                                        obj.getString("doctor_contact_no"),obj.getString("others_info"),
+                                        obj.getString("caregory"),obj.getString("category_details"));
+
+                                doctorList.add(doctor);
+
+                            }
+                            myRVAdapter.notifyDataSetChanged();
+                            mProgress.setProgress(0);
+                            mProgress.setVisibility(View.GONE);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                Volley.newRequestQueue(MainActivity.this).add(request);
+            }
+        });
+
+
+
         myRVAdapter = new MyCardAdapter(doctorList,MainActivity.this);
 
         myRecycleView.setAdapter(myRVAdapter);
-
-
-
 
 
         String url = "http://www.designtrick.com/all/doctors_admin_panel/get_all_doctor.php";
@@ -99,10 +182,46 @@ public class MainActivity extends AppCompatActivity {
         });
         Volley.newRequestQueue(this).add(request);
 
+        //////////////////////////////// Category Request/////////////////
+
+        String url2 = "http://www.designtrick.com/all/doctors_admin_panel/get_all_category.php";
+        final StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
 
 
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject object = new JSONObject(response);
+                    JSONArray array = object.getJSONArray("requests");
 
-    }
+                    Category category;
+                    categoryList.clear();
+                    categoryList.add("All");
+                    for ( int i = 0 ;i<array.length();i++)
+                    {
+
+                        JSONObject obj = array.getJSONObject(i);
+
+                        category = new Category(obj.getString("category_id"),obj.getString("caregory"));
+                        categoryList.add(category.getCategoryField().toString());
+                        categoryHM.put(category.getCategoryField().toString(),category.categoryID.toString());
+
+                    }
+                    dataAdapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Volley.newRequestQueue(this).add(request2);
+
+}
 
 
 
