@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager myRVLayoutManager;
     RecyclerView.Adapter myRVAdapter;
     List<Doctor> doctorList;
-
+    List<Doctor> doctortemp;
     List<String> categoryList;
     ProgressBar mProgress;
     ImageButton search;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         myRVLayoutManager = new LinearLayoutManager(this);
         myRecycleView.setLayoutManager(myRVLayoutManager);
         doctorList = new ArrayList<Doctor>();
+        doctortemp = new ArrayList<Doctor>();
 
         categoryList = new ArrayList<String>();
         categoryHM = new HashMap();
@@ -72,56 +73,59 @@ public class MainActivity extends AppCompatActivity {
                 String id = (String) categoryHM.get(s);
 
 
-                if(id.equals("All")){
-                    //myRVAdapter = new MyCardAdapter(doctorList,MainActivity.this);
-                }
-                else{
+                if(s.equals("All")){
+                    doctorList.clear();
+                    doctorList.addAll(doctortemp);
+                    myRVAdapter.notifyDataSetChanged();
 
                 }
-                String url = "http://www.designtrick.com/all/doctors_admin_panel/get_doc_by_category.php?id="+id;
-                mProgress.setVisibility(View.VISIBLE);
-                mProgress.setMax(150);
-                mProgress.setProgress(0);
+                else {
+                    String url = "http://www.designtrick.com/all/doctors_admin_panel/get_doc_by_category.php?id="+id;
+                    mProgress.setVisibility(View.VISIBLE);
+                    mProgress.setMax(150);
+                    mProgress.setProgress(0);
 
-                final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            JSONArray array = object.getJSONArray("requests");
+                    final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject object = new JSONObject(response);
+                                JSONArray array = object.getJSONArray("requests");
 
 
-                            Doctor doctor;
-                            doctorList.clear();
-                            for ( int i = 0 ;i<array.length();i++)
-                            {
-                                mProgress.incrementProgressBy(i + 2 * 5);
+                                Doctor doctor;
+                                doctorList.clear();
+                                for ( int i = 0 ;i<array.length();i++)
+                                {
+                                    mProgress.incrementProgressBy(i + 2 * 5);
 
-                                JSONObject obj = array.getJSONObject(i);
+                                    JSONObject obj = array.getJSONObject(i);
 
-                                doctor = new Doctor(obj.getString("doctor_id"),obj.getString("category_id"),
-                                        obj.getString("doctor_name"),obj.getString("doctor_degree"),
-                                        obj.getString("doctor_contact_no"),obj.getString("others_info"),
-                                        obj.getString("caregory"),obj.getString("category_details"));
+                                    doctor = new Doctor(obj.getString("doctor_id"),obj.getString("category_id"),
+                                            obj.getString("doctor_name"),obj.getString("doctor_degree"),
+                                            obj.getString("doctor_contact_no"),obj.getString("others_info"),
+                                            obj.getString("caregory"),obj.getString("category_details"));
 
-                                doctorList.add(doctor);
+                                    doctorList.add(doctor);
 
+                                }
+                                myRVAdapter.notifyDataSetChanged();
+                                mProgress.setProgress(0);
+                                mProgress.setVisibility(View.GONE);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            myRVAdapter.notifyDataSetChanged();
-                            mProgress.setProgress(0);
-                            mProgress.setVisibility(View.GONE);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
-                Volley.newRequestQueue(MainActivity.this).add(request);
+                        }
+                    });
+                    Volley.newRequestQueue(MainActivity.this).add(request);
+                }
+
             }
         });
 
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                         doctorList.add(doctor);
 
                     }
+                    doctortemp.addAll(doctorList);
                     Log.d("inside", doctorList.toString());
                     myRVAdapter.notifyDataSetChanged();
                     mProgress.setProgress(0);
