@@ -1,5 +1,6 @@
 package com.example.tumpa.cardviewtest;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.android.volley.Request;
@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     List<Doctor> doctorList;
     List<Doctor> doctortemp;
     List<String> categoryList;
-    ProgressBar mProgress;
+    //ProgressBar mProgress;
+    ProgressDialog pd;
     ImageButton search;
     Spinner categorySpnr;
     HashMap categoryHM ;
@@ -41,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.r_v_layout);
-        mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+        //mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+        pd = new ProgressDialog(MainActivity.this);
+        pd.setTitle("Processing...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
 
         search = (ImageButton) findViewById(R.id.search_btn);
         categorySpnr = (Spinner) findViewById(R.id.category_spinner);
@@ -81,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     String url = "http://www.designtrick.com/all/doctors_admin_panel/get_doc_by_category.php?id="+id;
-                    mProgress.setVisibility(View.VISIBLE);
+                    /*mProgress.setVisibility(View.VISIBLE);
                     mProgress.setMax(150);
-                    mProgress.setProgress(0);
+                    mProgress.setProgress(0);*/
+                    pd.show();
 
                     final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                         @Override
@@ -97,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                 doctorList.clear();
                                 for ( int i = 0 ;i<array.length();i++)
                                 {
-                                    mProgress.incrementProgressBy(i + 2 * 5);
+                                    //mProgress.incrementProgressBy(i + 2 * 5);
 
                                     JSONObject obj = array.getJSONObject(i);
 
@@ -110,8 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 myRVAdapter.notifyDataSetChanged();
-                                mProgress.setProgress(0);
-                                mProgress.setVisibility(View.GONE);
+                                /*mProgress.setProgress(0);
+                                mProgress.setVisibility(View.GONE);*/
+                                pd.dismiss();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -137,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         String url = "http://www.designtrick.com/all/doctors_admin_panel/get_all_doctor.php";
-        mProgress.setVisibility(View.VISIBLE);
+        /*mProgress.setVisibility(View.VISIBLE);
         mProgress.setMax(150);
-        mProgress.setProgress(0);
-
+        mProgress.setProgress(0);*/
+        pd.show();
         final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
 
@@ -148,16 +156,17 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("inside", "on request");
                 //tv.setText(response.toString());
+
                 try {
                     JSONObject object = new JSONObject(response);
                     JSONArray array = object.getJSONArray("requests");
-                    Log.d("inside","try");
+                    Log.d("inside", "try");
 
                     Doctor doctor;
                     doctorList.clear();
                     for ( int i = 0 ;i<array.length();i++)
                     {
-                        mProgress.incrementProgressBy(i + 2 * 5);
+                        //mProgress.incrementProgressBy(i + 2 * 5);
 
                         JSONObject obj = array.getJSONObject(i);
 
@@ -172,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
                     doctortemp.addAll(doctorList);
                     Log.d("inside", doctorList.toString());
                     myRVAdapter.notifyDataSetChanged();
-                    mProgress.setProgress(0);
-                    mProgress.setVisibility(View.GONE);
-
+                    /*mProgress.setProgress(0);
+                    mProgress.setVisibility(View.GONE);*/
+                    pd.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

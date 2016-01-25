@@ -1,5 +1,6 @@
 package com.example.tumpa.nevigationdrawer;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -9,8 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -34,8 +33,8 @@ public class MainActivity extends ActionBarActivity {
     RecyclerView.LayoutManager myRVLayoutManager;
     RecyclerView.Adapter myRVAdapter;
     List<Doctor> doctorList;
-
-    ProgressBar mProgress;
+    ProgressDialog pd;
+    //ProgressBar mProgress;
     @InjectView(R.id.drawer_layout)DrawerLayout drawerLayout;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.drawer_recyclerView)RecyclerView drawerRecyclerView;
@@ -47,9 +46,11 @@ public class MainActivity extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
 
-        context = getBaseContext();
 
-        mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+
+        //mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+        pd = new ProgressDialog(MainActivity.this);
+
 
         myRecycleView = (RecyclerView) findViewById(R.id.rv);
 
@@ -77,9 +78,14 @@ public class MainActivity extends ActionBarActivity {
         drawerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         String url = "http://www.designtrick.com/all/doctors_admin_panel/get_all_doctor.php";
-        mProgress.setVisibility(View.VISIBLE);
+        /*mProgress.setVisibility(View.VISIBLE);
         mProgress.setMax(150);
-        mProgress.setProgress(0);
+        mProgress.setProgress(0);*/
+        pd.setTitle("Processing...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
+        pd.show();
 
         final StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
@@ -97,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
                     doctorList.clear();
                     for ( int i = 0 ;i<array.length();i++)
                     {
-                        mProgress.incrementProgressBy(i + 2 * 5);
+                       // mProgress.incrementProgressBy(i + 2 * 5);
 
                         JSONObject obj = array.getJSONObject(i);
 
@@ -111,8 +117,9 @@ public class MainActivity extends ActionBarActivity {
                     }
                     Log.d("inside", doctorList.toString());
                     myRVAdapter.notifyDataSetChanged();
-                    mProgress.setProgress(0);
-                    mProgress.setVisibility(View.GONE);
+                   /* mProgress.setProgress(0);
+                    mProgress.setVisibility(View.GONE);*/
+                    pd.dismiss();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

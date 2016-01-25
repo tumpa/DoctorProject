@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">Need a Dr.</string>
+    <string name="app_name">Find your Dr.</string>
+    <string name="doc1">Dr. xyz is the most cool doctor I have ever seen. He was really nice and patient doctor. I am really great full to him.</string>
+    <string name="doc2">Write your review about Dr. XYZ ...</string>
     <string name="reg_text"><u>Open an account !</u></string>
 </resources>
